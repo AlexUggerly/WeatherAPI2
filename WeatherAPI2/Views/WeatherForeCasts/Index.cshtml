@@ -1,0 +1,58 @@
+﻿@model IEnumerable<WeatherAPI2.Models.Root>
+
+@{
+    ViewData["Title"] = "Index";
+    
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.timezone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.dt)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            DateTime dd = new DateTime();
+            dd = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+            dd = dd.AddSeconds(item.dt).ToLocalTime();
+            
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.timezone)
+                </td>
+                <td>
+                    
+                    @Html.DisplayFor(modelItem => dd)
+                </td>
+                <td>
+                    <img src="http://openweathermap.org/img/wn/@Html.DisplayFor(modelItem => item.weather[0].icon)@@2x.png">
+                    
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
