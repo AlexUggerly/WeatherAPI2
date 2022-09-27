@@ -19,7 +19,7 @@ namespace WeatherAPI2.Controllers
         {
             _context = context;
         }
-        public async Task<WeatherForecast> Nicklas(int lon, int lat)
+        public async Task<WeatherForecast> MVCGetForecast(int lon, int lat)
         {
 
             using HttpClient todoClient = new();
@@ -45,10 +45,10 @@ namespace WeatherAPI2.Controllers
         public async Task<IActionResult> Index()
         {
             List<WeatherForecast> WeatherForecastList = new();
-            WeatherForecastList.Add(Nicklas(12, 55).Result);
-            WeatherForecastList.Add(Nicklas(23, 66).Result);
-            WeatherForecastList.Add(Nicklas(72, 33).Result);
-            WeatherForecastList.Add(Nicklas(180, 89).Result);
+            WeatherForecastList.Add(MVCGetForecast(12, 55).Result);
+            WeatherForecastList.Add(MVCGetForecast(23, 66).Result);
+            WeatherForecastList.Add(MVCGetForecast(72, 33).Result);
+            WeatherForecastList.Add(MVCGetForecast(180, 89).Result);
             return View(WeatherForecastList);
         }
 
