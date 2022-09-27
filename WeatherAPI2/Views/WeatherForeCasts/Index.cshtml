@@ -1,4 +1,4 @@
-﻿@model IEnumerable<WeatherAPI2.Models.Root>
+﻿@model IEnumerable<WeatherAPI2.Models.WeatherForecast>
 
 @{
     ViewData["Title"] = "Index";
@@ -14,13 +14,13 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.id)
+                @Html.DisplayNameFor(model => model.Icon)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.timezone)
+                @Html.DisplayNameFor(model => model.Description)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.dt)
+                @Html.DisplayNameFor(model => model.Temperature)
             </th>
             <th></th>
         </tr>
@@ -28,29 +28,21 @@
     <tbody>
         @foreach (var item in Model)
         {
-            DateTime dd = new DateTime();
+            @*DateTime dd = new DateTime();
             dd = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
-            dd = dd.AddSeconds(item.dt).ToLocalTime();
+            dd = dd.AddSeconds(item.dt).ToLocalTime();*@
             
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.id)
+                    <img src="http://openweathermap.org/img/wn/@Html.DisplayFor(modelItem => item.Icon)@@2x.png">
+
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.timezone)
+                    @Html.DisplayFor(modelItem => item.Description)
                 </td>
                 <td>
                     
-                    @Html.DisplayFor(modelItem => dd)
-                </td>
-                <td>
-                    <img src="http://openweathermap.org/img/wn/@Html.DisplayFor(modelItem => item.weather[0].icon)@@2x.png">
-                    
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.id">Delete</a>
+                    @Html.DisplayFor(modelItem => item.Temperature)
                 </td>
             </tr>
         }

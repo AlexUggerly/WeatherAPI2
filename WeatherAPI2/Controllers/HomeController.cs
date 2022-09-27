@@ -15,7 +15,7 @@ namespace WeatherAPI2.Controllers
 
         public IActionResult Index()
         {
-            Response.Redirect("../WeatherForeCasts", true);
+            Response.Redirect("../WeatherForecasts", true);
             return View();
         }
 

@@ -11,111 +11,111 @@ using WeatherAPI2.Models;
 
 namespace WeatherAPI2.Controllers
 {
-    public class WeatherForeCastsController : Controller
+    public class WeatherForecastsController : Controller
     {
         private readonly WeatherAPI2Context _context;
 
-        public WeatherForeCastsController(WeatherAPI2Context context)
+        public WeatherForecastsController(WeatherAPI2Context context)
         {
             _context = context;
         }
-        public async Task<Root> Nicklas(int lon, int lat)
+        public async Task<WeatherForecast> Nicklas(int lon, int lat)
         {
 
             using HttpClient todoClient = new();
 
 
-                todoClient.BaseAddress = new Uri("https://api.openweathermap.org/data/2.5/weather");
+                todoClient.BaseAddress = new Uri("https://localhost:7269/Forecasts");
 
             
-            using HttpResponseMessage response = await todoClient.GetAsync($"?lat={lat}&lon={lon}&appid=8a4b4911a23641ac49470b87984939f0");
+            using HttpResponseMessage response = await todoClient.GetAsync($"?id=1");
 
             response.EnsureSuccessStatusCode();
 
 
             var jsonResponse = await response.Content.ReadAsStringAsync();
 
-            Root? wfc = JsonSerializer.Deserialize<Root>(jsonResponse);
+            WeatherForecast? wfc = JsonSerializer.Deserialize<WeatherForecast>(jsonResponse);
             return wfc;
 
         }
        
 
-        // GET: WeatherForeCasts
+        // GET: WeatherForecasts
         public async Task<IActionResult> Index()
         {
-            List<Root> RootList = new();
-            RootList.Add(Nicklas(12, 55).Result);
-            RootList.Add(Nicklas(23, 66).Result);
-            RootList.Add(Nicklas(72, 33).Result);
-            RootList.Add(Nicklas(180, 89).Result);
-            return View(RootList);
+            List<WeatherForecast> WeatherForecastList = new();
+            WeatherForecastList.Add(Nicklas(12, 55).Result);
+            WeatherForecastList.Add(Nicklas(23, 66).Result);
+            WeatherForecastList.Add(Nicklas(72, 33).Result);
+            WeatherForecastList.Add(Nicklas(180, 89).Result);
+            return View(WeatherForecastList);
         }
 
-        // GET: WeatherForeCasts/Details/5
+        // GET: WeatherForecasts/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.WeatherForeCast == null)
+            if (id == null || _context.WeatherForecast == null)
             {
                 return NotFound();
             }
 
-            var weatherForeCast = await _context.WeatherForeCast
+            var WeatherForecast = await _context.WeatherForecast
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (weatherForeCast == null)
+            if (WeatherForecast == null)
             {
                 return NotFound();
             }
 
-            return View(weatherForeCast);
+            return View(WeatherForecast);
         }
 
-        // GET: WeatherForeCasts/Create
+        // GET: WeatherForecasts/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: WeatherForeCasts/Create
+        // POST: WeatherForecasts/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Main,Description,Icon")] WeatherForeCast weatherForeCast)
+        public async Task<IActionResult> Create([Bind("Id,Main,Description,Icon")] WeatherForecast WeatherForecast)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(weatherForeCast);
+                _context.Add(WeatherForecast);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(weatherForeCast);
+            return View(WeatherForecast);
         }
 
-        // GET: WeatherForeCasts/Edit/5
+        // GET: WeatherForecasts/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.WeatherForeCast == null)
+            if (id == null || _context.WeatherForecast == null)
             {
                 return NotFound();
             }
 
-            var weatherForeCast = await _context.WeatherForeCast.FindAsync(id);
-            if (weatherForeCast == null)
+            var WeatherForecast = await _context.WeatherForecast.FindAsync(id);
+            if (WeatherForecast == null)
             {
                 return NotFound();
             }
-            return View(weatherForeCast);
+            return View(WeatherForecast);
         }
 
-        // POST: WeatherForeCasts/Edit/5
+        // POST: WeatherForecasts/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Main,Description,Icon")] WeatherForeCast weatherForeCast)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Main,Description,Icon")] WeatherForecast WeatherForecast)
         {
-            if (id != weatherForeCast.Id)
+            if (id != WeatherForecast.Id)
             {
                 return NotFound();
             }
@@ -124,12 +124,12 @@ namespace WeatherAPI2.Controllers
             {
                 try
                 {
-                    _context.Update(weatherForeCast);
+                    _context.Update(WeatherForecast);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!WeatherForeCastExists(weatherForeCast.Id))
+                    if (!WeatherForecastExists(WeatherForecast.Id))
                     {
                         return NotFound();
                     }
@@ -140,49 +140,49 @@ namespace WeatherAPI2.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(weatherForeCast);
+            return View(WeatherForecast);
         }
 
-        // GET: WeatherForeCasts/Delete/5
+        // GET: WeatherForecasts/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.WeatherForeCast == null)
+            if (id == null || _context.WeatherForecast == null)
             {
                 return NotFound();
             }
 
-            var weatherForeCast = await _context.WeatherForeCast
+            var WeatherForecast = await _context.WeatherForecast
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (weatherForeCast == null)
+            if (WeatherForecast == null)
             {
                 return NotFound();
             }
 
-            return View(weatherForeCast);
+            return View(WeatherForecast);
         }
 
-        // POST: WeatherForeCasts/Delete/5
+        // POST: WeatherForecasts/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.WeatherForeCast == null)
+            if (_context.WeatherForecast == null)
             {
-                return Problem("Entity set 'WeatherAPI2Context.WeatherForeCast'  is null.");
+                return Problem("Entity set 'WeatherAPI2Context.WeatherForecast'  is null.");
             }
-            var weatherForeCast = await _context.WeatherForeCast.FindAsync(id);
-            if (weatherForeCast != null)
+            var WeatherForecast = await _context.WeatherForecast.FindAsync(id);
+            if (WeatherForecast != null)
             {
-                _context.WeatherForeCast.Remove(weatherForeCast);
+                _context.WeatherForecast.Remove(WeatherForecast);
             }
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool WeatherForeCastExists(int id)
+        private bool WeatherForecastExists(int id)
         {
-          return _context.WeatherForeCast.Any(e => e.Id == id);
+          return _context.WeatherForecast.Any(e => e.Id == id);
         }
     }
 }

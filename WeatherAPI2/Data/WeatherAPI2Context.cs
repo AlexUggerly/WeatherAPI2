@@ -14,6 +14,6 @@ namespace WeatherAPI2.Data
         {
         }
 
-        public DbSet<WeatherAPI2.Models.WeatherForeCast> WeatherForeCast { get; set; } = default!;
+        public DbSet<WeatherAPI2.Models.WeatherForecast> WeatherForecast { get; set; } = default!;
     }
 }
